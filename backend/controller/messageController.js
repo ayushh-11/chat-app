@@ -6,7 +6,7 @@ const messageController = async (req, res) => {
     //convert ids to objecttype
     const senderId = new mongoose.Types.ObjectId(req.session.sid);
     const receiverId = new mongoose.Types.ObjectId(req.params.rid);
-    const message = req.body.message;
+    const message = req.body.msg;
 
     //query conversation
     let conversation = await conversationModel.findOne({

@@ -10,15 +10,14 @@ login = async(req, res) => {
                     if (err) throw err;
                     if (bcryptResult) {
                         req.session.sid = result._id;
-                        
-                        res.send("Login Success")
+                        res.send({success:true,user : result});
                     }
                     else
-                        res.send("Incorrect Password")
+                        res.send({error:"Incorrect password"})
                 })
             }
             else{
-                res.send("Incorrect Username")
+                res.send({error : "Incorrect Username"})
             }
         })
 
