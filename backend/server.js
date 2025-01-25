@@ -14,10 +14,7 @@ dotenv.config(); // Load environment variables
 
 // Middleware
 app.use(express.json()); // For parsing JSON
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-}));
+app.use(cors());
 
 // Session Configuration
 app.use(session({
