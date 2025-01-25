@@ -1,4 +1,5 @@
 const { app, server } = require("./socket/socket");
+const path = require("path")
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -7,6 +8,7 @@ const authRoutes = require("./routes/authRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const userRoutes = require("./routes/userRoutes");
 const connection = require("./db/connection");
+
 
 dotenv.config(); // Load environment variables
 
@@ -29,6 +31,12 @@ app.use(session({
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/", userRoutes);
+
+app.use(express.static(path.join("frontend/dist")))
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join("frontend", "dist"));
+});
 
 // Start the Server
 const port = process.env.PORT || 5000; // Use fallback if PORT is not defined
