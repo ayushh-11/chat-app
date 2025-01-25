@@ -1,32 +1,38 @@
+const { app, server } = require("./socket/socket");
 const express = require("express");
-const app = express();
 const cors = require("cors");
-dotenv = require("dotenv");
-dotenv.config();
-app.use(express.json());
-const session = require('express-session');
-app.use(session({
-    name : 'app.sid',
-    secret: "1234567890QWERTY",
-    resave: true,
-    saveUninitialized: true
-}));
+const dotenv = require("dotenv");
+const session = require("express-session");
 const authRoutes = require("./routes/authRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const userRoutes = require("./routes/userRoutes");
-const connection = require("./db/connection")
+const connection = require("./db/connection");
 
+dotenv.config(); // Load environment variables
+
+// Middleware
+app.use(express.json()); // For parsing JSON
 app.use(cors({
     origin: "http://localhost:5173",
-    credentials: true 
+    credentials: true,
 }));
 
-app.use("/api/auth", authRoutes);
-app.use("/api/message", messageRoutes)
-app.use("/api/",userRoutes)
+// Session Configuration
+app.use(session({
+    name: 'app.sid',
+    secret: "1234567890QWERTY", // Use environment variable
+    resave: true,
+    saveUninitialized: true,
+}));
 
-port = process.env.port ;
-app.listen(5000,()=>{
-    connection()
-    console.log(`Server stared on port ${port}`);
-})
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/", userRoutes);
+
+// Start the Server
+const port = process.env.PORT || 5000; // Use fallback if PORT is not defined
+server.listen(port, () => {
+    connection(); // Initialize DB connection
+    console.log(`Server started on port ${port}`);
+});

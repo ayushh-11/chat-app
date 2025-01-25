@@ -7,10 +7,10 @@ export const useMessageContext = () =>{
 }
 
 export const MessageContextProvider = ({children}) => {
-    const [message, setMessage] = useState(null);
+    const [messages, setMessage] = useState(null);
     const [selectedChat, setSelectedChat] = useState(null);
     const [messageRefresh, setMessageRefresh] = useState(false)
-    return <MessageContext.Provider value={{message, setMessage, selectedChat, setSelectedChat,messageRefresh,setMessageRefresh}}>
+    return <MessageContext.Provider value={{messages, setMessage, selectedChat, setSelectedChat,messageRefresh,setMessageRefresh}}>
         {children}
     </MessageContext.Provider>
 }

@@ -5,11 +5,13 @@ import { TiMessages } from "react-icons/ti";
 import { useMessageContext } from '../context/MessageContext';
 import { useState } from 'react';
 import axios from 'axios'
+import { useAuthContext } from '../context/AuthContext';
 
 
 function Conversation() {
   const {selectedChat,setMessageRefresh,messageRefresh} = useMessageContext();
   console.log("Selected chat = ",selectedChat)
+  const {authUser} = useAuthContext();
   const [msg, setMsg] = useState("") 
   var se = selectedChat;
   function handleSend(e){
@@ -37,7 +39,7 @@ function Conversation() {
       {!selectedChat ?
         <div className='flex items-center justify-center w-full h-full'>
           <div className='px-4 text-center sm:text-lg md:text-xl text-gray-200 font-semibold flex flex-col items-center gap-2'>
-            <p>Welcome 👋 Ayush ❄</p>
+            <p>Welcome 👋 {authUser && authUser.fullName} ❄</p>
             <p>Select a chat to start messaging</p>
             <TiMessages className='text-3xl md:text-6xl text-center' />
           </div>

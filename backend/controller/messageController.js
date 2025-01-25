@@ -1,6 +1,7 @@
 const conversationModel = require("../model/conversationModel");
 const messageModel = require("../model/messageModel");
 const mongoose = require("mongoose")
+const {getReceiverSocketId, io} = require("../socket/socket")
 
 const messageController = async (req, res) => {
     //convert ids to objecttype
@@ -32,6 +33,12 @@ const messageController = async (req, res) => {
     await Promise.all([newMessage.save(),
         conversation.save()
     ])
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+		if (receiverSocketId) {
+			// io.to(<socket_id>).emit() used to send events to specific client
+			io.to(receiverSocketId).emit("newMessage", newMessage);
+		}
     res.send("Message = " + message + senderId + receiverId)
 }
 
